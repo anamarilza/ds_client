@@ -1,26 +1,70 @@
-<!DOCTYPE html>
-<html>
+<!doctype html>
+<html lang="en">
 <head>
-  <title>Home</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.8/css/solid.css">
-  <script src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
-  <link rel="stylesheet" type="text/css" href="style.css">
-  <link rel="shortcut icon" href="#" />
-</head>
-<body>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <!-- Latest compiled and minified CSS -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
 
-<!--- Header --->
+  <title>Home Page</title>
+  <link rel="shortcut icon" href="https://material.io/favicon.ico">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/8.0.0/normalize.min.css">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700">
+  <link rel="stylesheet" href="bundle-home.css">
+</head>
+<body class="home">
+
+  <aside class="mdc-drawer shrine-drawer">
+  <div class="mdc-drawer__header">
+
+  <div class="row user-pic">
+    <a href="userprofile.html" class="thumbnail">
+      <img src="img/e.png" alt="...">
+    </a>
+</div>
+
+    <h1 class="shrine-title"> USER </h1>
+  </div>
+  <div class="mdc-drawer__content">
+    <nav class="mdc-list">
+      <a class="mdc-list-item mdc-list-item--activated" aria-selected="true" href="#">
+      <font size ="5">  Home </font>
+      </a>
+      <a class="mdc-list-item" href="#">
+        Link #
+      </a>
+      <a class="mdc-list-item" href="#">
+        Link #
+      </a>
+      <a class="mdc-list-item" href="#">
+        Link #
+      </a>
+      <a class="mdc-list-item" href="#">
+        Link #
+      </a>
+      <a class="mdc-list-item" href="#">
+        Link #
+      </a>
+      <a class="mdc-list-item" href="#">
+        Link #
+      </a>
+      <a class="mdc-list-item" href="#">
+        Link #
+      </a>
+    </nav>
+  </div>
+</aside>
+
+
 
 
 <!-- Styles -->
 <style>
 #chartdiv {
-  width: 100%;
+  width: 80%;
+  left: 35px;
   height: 500px;
+  margin: 0 auto;
 }
 </style>
 
@@ -124,40 +168,26 @@ jQuery('.chart-input').off().on('input change',function() {
 </script>
 
 <!-- HTML -->
-<div class="container-fluid">
-  <div class="row">
-
-    <div id="left-menu" class="col-sm-3">
-      <div class="container-fluid">
-          <div class="row">
-              <div class="col-3 col-sm-2 col-md-2 col-lg-1 col-xl-1">
-                  <nav class="nav navbar-light navbar-toggleable-sm">
-                      <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarWEX" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                          <span class="navbar-toggler-icon"></span>
-                      </button>
-                      <div class="navbar-collapse collapse flex-column" id="navbarWEX">
-                        <nobr>
-                          <a class="nav-link navbar-brand active" href="#"><span id="home-icon"class="fa fa-home"></span></a>
-                          <a href="#" class="nav-link">Link 1</a>
-                          <a href="#" class="nav-link">Link 2</a>
-                          <a href="#" class="nav-link">Link 3</a>
-                        </nobr>
-                      </div>
-                  </nav>
-
-                  <h2>Hello There</h2>
-
-              </div>
-          </div>
-      </div>
-    </div>
-
+<div class="container" align="center">
     <div id="chartdiv" class="col-md-7"></div>
-  </div>
 </div>
 
 
 
 
+
+
+
+
+
+
+<script
+  src="https://code.jquery.com/jquery-3.3.1.min.js"
+  integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
+  crossorigin="anonymous"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
+  <script src="bundle-home.js" async></script>
 </body>
 </html>
