@@ -6,44 +6,45 @@
     <span class="md-title">Header</span>
   </md-app-toolbar>
 
-  <md-app-drawer md-permanent="full">
+  <md-app-drawer md-fixed = "true" md-permanent="clipped">
       <div class="centered-container">
         <md-content class="md-elevation-12 user-pic">
             <img src="https://orig00.deviantart.net/adc4/f/2018/201/f/0/profile_picture_by_dummy_doodles-dchro9m.png"></img>
         </md-content>
       </div>
+      <div class="centered-container">
 
-    <md-list>
-
-      <md-list-item>
-        <router-link v-bind:to="{ name: 'Posts' }" class="" style="width:100%">
-        <md-button class="md-raised md-primary" style="width:100%">HOME</md-button>
+        <router-link v-bind:to="{ name: 'Posts' }">
+          <md-button class="md-raised md-primary">HOME</md-button>
       </router-link>
-      </md-list-item>
 
-      <md-list-item>
-        <router-link v-bind:to="{ name: 'Posts' }" class="" style="width:100%">
-        <md-button class="md-raised md-primary" style="width:100%">SOLICITAÇÕES</md-button>
+
+
+        <router-link v-bind:to="{ name: 'Posts' }" >
+        <md-button class="md-raised md-primary" >SOLICITAÇÕES</md-button>
       </router-link>
-      </md-list-item>
 
-      <md-list-item>
-        <router-link v-bind:to="{ name: 'Posts' }" class="" style="width:100%">
-        <md-button class="md-raised md-primary" style="width:100%">FAQ</md-button>
+
+
+        <router-link v-bind:to="{ name: 'Posts' }" >
+        <md-button class="md-raised md-primary" >FAQ</md-button>
       </router-link>
-      </md-list-item>
 
-      <md-list-item>
-        <router-link v-bind:to="{ name: 'Posts' }" class="" style="width:100%">
-        <md-button class="md-raised md-primary" style="width:100%">LINK --  </md-button>
+
+
+        <router-link v-bind:to="{ name: 'Posts' }" class="" >
+        <md-button class="md-raised md-primary">LINK --  </md-button>
       </router-link>
-      </md-list-item>
 
-    </md-list>
+
+  </div>
   </md-app-drawer>
 
-  <md-app-content>
+
+  <md-app-content class="main-content-holder">
+    <span class="md-display-2">
     Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error quibusdam, non molestias et! Earum magnam, similique, quo recusandae placeat dicta asperiores modi sint ea repudiandae maxime? Quae non explicabo, neque.
+  </span>
   </md-app-content>
 </md-app>
 
@@ -76,7 +77,15 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+.router-link{
+  width:100%;
+}
+.md-button{
+  border: 10px solid rgba(255,255,255,.3);
+  border-style: solid;
+  border-width: 1px;
+  width: 90%;
+}
 .md-app {
   min-height: 350px;
   border: 1px solid rgba(#000, .12);
@@ -85,8 +94,10 @@ export default {
 .md-drawer {
   width: 230px;
   max-width: calc(100vw - 125px);
+  max-height: auto;
 }
 .user-pic{
+  border: 10px solid rgba(255,255,255,.7);
   width: 50%;
   margin-top: 35px;
   margin-bottom: 35px;
