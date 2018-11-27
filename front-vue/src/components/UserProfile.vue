@@ -18,25 +18,25 @@
 
         <router-link v-bind:to="{ name: 'Home' }">
           <md-button class="md-raised md-primary">HOME</md-button>
-      </router-link>
+        </router-link>
 
 
 
         <router-link v-bind:to="{ name: 'Posts' }" >
-        <md-button class="md-raised md-primary" >SOLICITAÇÕES</md-button>
-      </router-link>
+           <md-button class="md-raised md-primary" >SOLICITAÇÕES</md-button>
+        </router-link>
 
 
 
-        <router-link v-bind:to="{ name: 'FAQ' }" >
+      <router-link v-bind:to="{ name: 'FAQ' }" >
         <md-button class="md-raised md-primary" >FAQ</md-button>
       </router-link>
 
 
 
         <router-link v-bind:to="{ name: 'Posts' }" class="" >
-        <md-button class="md-raised md-primary">LINK --  </md-button>
-      </router-link>
+           <md-button class="md-raised md-primary">LINK --  </md-button>
+        </router-link>
 
 
   </div>
@@ -44,11 +44,22 @@
 
 
   <md-app-content class="main-content-holder">
-    <span class="md-display-2">
-      <md-display-2>Horas Complementares:</md-display-2>
-      <user-chart></user-chart>
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error quibusdam, non molestias et! Earum magnam, similique, quo recusandae placeat dicta asperiores modi sint ea repudiandae maxime? Quae non explicabo, neque.
-  </span>
+    <div class="user-info">
+      <div class="container">
+        <div class="fixed-item">
+          <img src="https://orig00.deviantart.net/adc4/f/2018/201/f/0/profile_picture_by_dummy_doodles-dchro9m.png"></img>
+        </div>
+        <div class="flex-item">
+          <h3>Username:</h3>
+          <h3>Email:</h3>
+          <h3>Telefone</h3>
+        </div>
+     </div>
+    </div>
+
+
+      <user-table></user-table>
+
   </md-app-content>
 </md-app>
 
@@ -81,6 +92,26 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+
+
+.container{
+    color: #fff;
+    font-family: Tahoma, Verdana, Segoe, sans-serif;
+    padding: 10px;
+    background-color:#2E4272;
+    display:flex;
+}
+.fixed{
+    background-color:#4F628E;
+    width: 200px;
+}
+.flex-item{
+    padding-left: 30px;
+    text-align: left;
+    align-content: left;
+    background-color:#7887AB;
+    flex-grow: 1;
+}
 .router-link{
   width:100%;
 }

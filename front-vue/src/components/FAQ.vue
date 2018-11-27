@@ -18,25 +18,25 @@
 
         <router-link v-bind:to="{ name: 'Home' }">
           <md-button class="md-raised md-primary">HOME</md-button>
-      </router-link>
+        </router-link>
 
 
 
         <router-link v-bind:to="{ name: 'Posts' }" >
-        <md-button class="md-raised md-primary" >SOLICITAÇÕES</md-button>
-      </router-link>
+          <md-button class="md-raised md-primary" >SOLICITAÇÕES</md-button>
+        </router-link>
 
 
 
-        <router-link v-bind:to="{ name: 'FAQ' }" >
+      <router-link v-bind:to="{ name: 'FAQ' }" >
         <md-button class="md-raised md-primary" >FAQ</md-button>
       </router-link>
 
 
 
         <router-link v-bind:to="{ name: 'Posts' }" class="" >
-        <md-button class="md-raised md-primary">LINK --  </md-button>
-      </router-link>
+          <md-button class="md-raised md-primary">LINK --  </md-button>
+        </router-link>
 
 
   </div>
@@ -45,9 +45,8 @@
 
   <md-app-content class="main-content-holder">
     <span class="md-display-2">
-      <md-display-2>Horas Complementares:</md-display-2>
-      <user-chart></user-chart>
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error quibusdam, non molestias et! Earum magnam, similique, quo recusandae placeat dicta asperiores modi sint ea repudiandae maxime? Quae non explicabo, neque.
+
+    <faq-text></faq-text>
   </span>
   </md-app-content>
 </md-app>

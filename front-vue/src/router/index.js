@@ -6,6 +6,8 @@ import Home from '@/components/Home'
 import Posts from '@/components/Posts'
 import NewPost from '@/components/NewPost'
 import EditPost from '@/components/EditPost'
+import UserProfile from '@/components/UserProfile'
+import FAQ from '@/components/FAQ'
 
 Vue.use(Router)
 
@@ -17,6 +19,18 @@ export default new Router({
       path: '/',
       name: 'Login',
       component: Login
+    },
+    {
+
+      path: '/userprofile',
+      name: 'UserProfile',
+      component: UserProfile
+    },
+    {
+
+      path: '/faq',
+      name: 'FAQ',
+      component: FAQ
     },
     // {
     //   path: '/',
