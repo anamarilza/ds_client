@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import PostsService from '@/services/PostsService'
+import HoursService from '@/services/HoursService'
 export default {
   name: 'EditPost',
   data () {
@@ -30,14 +30,14 @@ export default {
   },
   methods: {
     async getPost () {
-      const response = await PostsService.getPost({
+      const response = await HoursService.getPost({
         id: this.$route.params.id
       })
       this.title = response.data.title
       this.description = response.data.description
     },
     async updatePost () {
-      await PostsService.updatePost({
+      await HoursService.updatePost({
         id: this.$route.params.id,
         title: this.title,
         description: this.description

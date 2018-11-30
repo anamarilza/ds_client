@@ -55,13 +55,13 @@
 </template>
 
 <script>
-import PostsService from '@/services/PostsService'
+import HoursService from '@/services/HoursService'
 export default {
   name: 'PermanentFull',
   data () {
     return {
       name: 'None',
-      activities: []
+      questions: []
     }
   },
   mounted () {
@@ -70,8 +70,8 @@ export default {
   methods: {
 
     async getInfo() {
-      const response = await PostsService.getName()
-      this.activities = response.data
+      const response = await HoursService.fetchQuestions({id:0})
+      this.questions = response.data
       this.name = this.activities[0].nome_aluno
     }
   }

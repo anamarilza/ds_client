@@ -50,7 +50,8 @@
           <img src="https://orig00.deviantart.net/adc4/f/2018/201/f/0/profile_picture_by_dummy_doodles-dchro9m.png"></img>
         </div>
         <div class="flex-item">
-          <h3>Username:</h3>
+          {{this.activities}}
+          <h3>Username: {{name}} </h3>
           <h3>Email:</h3>
           <h3>Telefone</h3>
         </div>
@@ -67,12 +68,14 @@
 </template>
 
 <script>
-import PostsService from '@/services/PostsService'
+import HoursService from '@/services/HoursService'
 export default {
   name: 'PermanentFull',
   data () {
     return {
-      name: 'None',
+      name: ' What ',
+      email: 'Blank',
+      Telefone: 'Blank',
       activities: []
     }
   },
@@ -82,7 +85,7 @@ export default {
   methods: {
 
     async getInfo() {
-      const response = await PostsService.getName()
+      const response = await HoursService.fetchRequests({ "id": 0})
       this.activities = response.data
       this.name = this.activities[0].nome_aluno
     }

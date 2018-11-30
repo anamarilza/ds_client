@@ -1,7 +1,10 @@
 <template>
   <div class="posts">
+    // This is all the data being received //
+    
+    {{requests}}
     <h1>Posts</h1>
-    <div v-if="posts.length > 0" class="table-wrap">
+    <div v-if="requests.length > 0" class="table-wrap">
       <div>
         <router-link v-bind:to="{ name: 'NewPost' }" class="">Add Post</router-link>
       </div>
@@ -11,10 +14,9 @@
           <td width="550">Description</td>
           <td width="100" align="center">Action</td>
         </tr>
-
-        <tr v-for="post in posts" :key="post.id_atividade">
-          <td>{{ post.max_horas }}</td>
-          <td>{{ post.nome_atividade }}</td>
+        <tr v-for="post in requests" :key="post.id_solicitacao">
+          <td>{{ post.id_solicitacao }}</td>
+          <td>{{ post.data_solic }}</td>
           <td align="center">
             <router-link v-bind:to="{ name: 'EditPost', params: { id: post._id } }">Edit</router-link> |
             <a href="#" @click="deletePost(post._id)">Delete</a>
@@ -30,26 +32,22 @@
 </template>
 
 <script>
-import PostsService from '@/services/PostsService'
+import HoursService from '@/services/HoursService'
 export default {
   name: 'posts',
   data () {
     return {
-      posts: []
+      requests: []
     }
   },
   mounted () {
-    this.getPosts()
+    this.fetchRequests()
   },
   methods: {
-    async getPosts () {
-      const response = await PostsService.fetchPosts()
-      this.posts = response.data
+    async fetchRequests () {
+      const response = await HoursService.fetchRequests({id:0})
+      this.requests = response.data
     },
-    async deletePost (id) {
-      await PostsService.deletePost(id)
-      this.$router.push({ name: 'Posts' })
-    }
   }
 }
 </script>

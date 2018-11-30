@@ -16,7 +16,7 @@
 </template>
 
 <script>
-import PostsService from '@/services/PostsService'
+import HoursService from '@/services/HoursService'
 export default {
   name: 'NewPost',
   data () {
@@ -27,7 +27,7 @@ export default {
   },
   methods: {
     async addPost () {
-      await PostsService.addPost({
+      await HoursService.addPost({
         title: this.title,
         description: this.description
       })

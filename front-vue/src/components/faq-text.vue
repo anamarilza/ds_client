@@ -2,9 +2,7 @@
   <div>
     <md-content class="md-scrollbar">
       <p>
-        Autem enim asperiores consequuntur neque sequi ea similique ex maxime,
-        repudiandae doloremque aliquam exercitationem omnis assumenda. Rem
-        suscipit pariatur vero facere?
+        {{questions}}
       </p>
       <p>
         Necessitatibus aut cumque sit ad. Tempora perferendis nostrum, in
@@ -22,11 +20,28 @@
 </template>
 
 <script>
+import HoursService from '@/services/HoursService'
 export default {
-  name: "ScrollbarExample"
-};
-</script>
+  name: 'PermanentFull',
+  data () {
+    return {
+      name: 'None',
+      questions: []
+    }
+  },
+  mounted () {
+    this.getInfo()
+  },
+  methods: {
 
+    async getInfo() {
+      const response = await HoursService.fetchQuestions({id:0})
+      this.questions = response.data
+      this.name = this.activities[0].nome_aluno
+    }
+  }
+}
+</script>
 <style lang="scss" scoped>
 .md-content {
   max-width: 1200px;
