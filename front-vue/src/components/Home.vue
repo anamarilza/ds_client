@@ -7,7 +7,7 @@
   </md-app-toolbar>
 
   <md-app-drawer md-permanent="clipped">
-      <div class="centered-container">
+      <div class="userimg-container">
         <router-link v-bind:to="{ name: 'UserProfile' }">
         <md-content class="md-elevation-12 user-pic">
             <img src="https://orig00.deviantart.net/adc4/f/2018/201/f/0/profile_picture_by_dummy_doodles-dchro9m.png"></img>
@@ -17,7 +17,7 @@
         </p>
       </router-link>
       </div>
-      <div class="centered-container">
+      <div class="nav-container">
 
         <router-link v-bind:to="{ name: 'Home' }">
           <md-button class="md-raised md-primary">HOME</md-button>
@@ -73,7 +73,6 @@ export default {
     this.getInfo()
   },
   methods: {
-
     async getInfo() {
       const response = await HoursService.fetchRequests({id:0})
       this.activities = response.data
@@ -85,6 +84,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.userimg-container{
+  max-height: 350px;
+}
+.nav-container{
+  max-height: 350px;
+}
 .chart-holder{
   padding-top: 40px;
   margin-left: auto;

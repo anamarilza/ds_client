@@ -7,36 +7,39 @@
   </md-app-toolbar>
 
   <md-app-drawer md-permanent="clipped">
-      <div class="centered-container">
+      <div class="userimg-container">
         <router-link v-bind:to="{ name: 'UserProfile' }">
         <md-content class="md-elevation-12 user-pic">
             <img src="https://orig00.deviantart.net/adc4/f/2018/201/f/0/profile_picture_by_dummy_doodles-dchro9m.png"></img>
         </md-content>
+        <p>
+          {{name}}
+        </p>
       </router-link>
       </div>
-      <div class="centered-container">
+      <div class="nav-container">
 
         <router-link v-bind:to="{ name: 'Home' }">
           <md-button class="md-raised md-primary">HOME</md-button>
-        </router-link>
+      </router-link>
 
 
 
         <router-link v-bind:to="{ name: 'Posts' }" >
-           <md-button class="md-raised md-primary" >SOLICITAÇÕES</md-button>
-        </router-link>
+        <md-button class="md-raised md-primary" >SOLICITAÇÕES</md-button>
+      </router-link>
 
 
 
-      <router-link v-bind:to="{ name: 'FAQ' }" >
+        <router-link v-bind:to="{ name: 'FAQ' }" >
         <md-button class="md-raised md-primary" >FAQ</md-button>
       </router-link>
 
 
 
         <router-link v-bind:to="{ name: 'Posts' }" class="" >
-           <md-button class="md-raised md-primary">LINK --  </md-button>
-        </router-link>
+        <md-button class="md-raised md-primary">LINK --  </md-button>
+      </router-link>
 
 
   </div>
@@ -95,7 +98,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
-
+.userimg-container{
+  max-height: 350px;
+}
+.nav-container{
+  max-height: 350px;
+}
 
 .container{
     color: #fff;
