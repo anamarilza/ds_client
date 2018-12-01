@@ -22,7 +22,6 @@
           <label>Password</label>
           <md-input v-model="login.password" type="password"></md-input>
         </md-field>
-         <p v-if="error" class="error">Bad login information</p>
         </form>
       </div>
 
@@ -32,7 +31,6 @@
         <router-link v-bind:to="{ name: 'Home' }" class="">
         <md-button class="md-raised md-primary" @click="auth">Log in</md-button>
         </router-link>
-        <p v-if="error" class="error">Bad login information</p>
       </div>
 
       <div class="loading-overlay" v-if="loading">

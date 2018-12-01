@@ -59,7 +59,6 @@
 
 <script>
 import HoursService from '@/services/HoursService'
-
 export default {
   name: 'PermanentFull',
   data () {
@@ -76,7 +75,6 @@ export default {
     this.getInfo()
   },
   methods: {
-
     async getInfo() {
       const response = await HoursService.fetchQuestions({id:0})
       this.questions = response.data
@@ -116,7 +114,6 @@ export default {
   flex-wrap: wrap;
 }
 #question{
-
 }
 #answer{
   text-align: left;

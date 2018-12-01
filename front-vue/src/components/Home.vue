@@ -6,7 +6,7 @@
     <span class="md-title">Header</span>
   </md-app-toolbar>
 
-  <md-app-drawer md-fixed = "true" md-permanent="clipped">
+  <md-app-drawer md-permanent="clipped">
       <div class="centered-container">
         <router-link v-bind:to="{ name: 'UserProfile' }">
         <md-content class="md-elevation-12 user-pic">
@@ -48,9 +48,10 @@
 
   <md-app-content class="main-content-holder">
     <span class="md-display-2">
-      <md-display-2>Horas Complementares:</md-display-2>
-      <user-chart></user-chart>
-    Lorem ipsum dolor sit amet, consectetur adipisicing elit. Error quibusdam, non molestias et! Earum magnam, similique, quo recusandae placeat dicta asperiores modi sint ea repudiandae maxime? Quae non explicabo, neque.
+      Horas Complementares:
+      <div class="chart-holder">
+          <user-chart></user-chart>
+      </div>
   </span>
   </md-app-content>
 </md-app>
@@ -84,6 +85,12 @@ export default {
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
+.chart-holder{
+  padding-top: 40px;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1200px;
+}
 .router-link{
   width:100%;
 }
