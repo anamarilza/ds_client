@@ -6,7 +6,7 @@
     <span class="md-title">Header</span>
   </md-app-toolbar>
 
-  <md-app-drawer md-fixed = "true" md-permanent="clipped">
+  <md-app-drawer md-permanent="clipped">
       <div class="centered-container">
         <router-link v-bind:to="{ name: 'UserProfile' }">
         <md-content class="md-elevation-12 user-pic">
