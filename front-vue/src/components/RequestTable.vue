@@ -35,7 +35,7 @@ export default {
   methods: {
 
     async getInfo() {
-      const response = await HoursService.fetchRequests({id:0})
+      const response = await HoursService.getAllStudentRequests({id:0})
       this.requests = response.data
       this.name = this.activities[0].nome_aluno
     }

@@ -70,7 +70,7 @@ export default {
   methods: {
 
     async getInfo() {
-      const response = await HoursService.fetchQuestions({id:0})
+      const response = await HoursService.getAllQuestionsFromCurriculum({id:0})
       this.questions = response.data
       this.name = this.activities[0].nome_aluno
     }

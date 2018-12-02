@@ -76,7 +76,7 @@ export default {
   },
   methods: {
     async getInfo() {
-      const response = await HoursService.fetchQuestions({id:0})
+      const response = await HoursService.getAllQuestionsFromCurriculum({id:0})
       this.questions = response.data
       this.name = this.activities[0].nome_aluno // ERROR CANNOT READ PROPERTY '0' OF UNDEFINED...
     },
@@ -84,7 +84,7 @@ export default {
       this.showDialog = false;
     },
     postNewQuestion:function(){
-        HoursService.addQuestion({
+        HoursService.addNewQuestion({
           'id_curriculo' : 0,  // id_curriculo
           'perg_duv' : this.required,  //pergunta
           'resp_duv' : this.textarea   // resposta

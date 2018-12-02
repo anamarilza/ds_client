@@ -138,7 +138,7 @@ export default {
   },
   methods: {
     async fetchRequests () {
-      const response = await HoursService.fetchRequests({id:0})
+      const response = await HoursService.getAllStudentRequests({id:0})
       this.requests = response.data
     },
 }
