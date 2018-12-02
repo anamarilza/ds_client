@@ -48,23 +48,11 @@
 
   <md-app-content class="main-content-holder">
 
-
-    <div id="requests-container">
-      <ul>
-          <li v-for="request in requests">
-            {{ request.id_solicitacao }}
-            {{ request.nome_aluno }}
-            {{ request.id_atividade }}
-            {{ request.horas_info }}
-            {{ request.data_solic }}
-            <br>
-          </li>
-      </ul>
-
-    </div>
-
-
-
+    <!-- REQUEST TABLE -->
+    <b-container fluid>
+      <b-table striped hover :items="requests" :fields="fields">
+      </b-table>
+    </b-container>
 
 
 
@@ -72,7 +60,6 @@
     <!-- POST CONTENT HERE -->
     <div class="posts">
       // This is all the data being received //
-
       {{requests}}
       <h1>Posts</h1>
       <div v-if="requests.length > 0" class="table-wrap">
@@ -141,6 +128,7 @@ const searchByName = (items, term) => {
 export default {
   name: 'posts',
   data: () => ({
+      fields : ['id_solicitacao', 'nome_aluno', 'id_atividade', 'data_solic'],
       requests : [],
       search: null,
       searched: []

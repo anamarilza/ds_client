@@ -6,11 +6,17 @@ import router from './router'
 
 Vue.config.productionTip = false
 
-
+// IMPORT VUE MATERIAL
 import VueMaterial from 'vue-material'
 import 'vue-material/dist/vue-material.min.css'
 import 'vue-material/dist/theme/default.css'
 
+// IMPORT BOOTSTRAPVUE
+import BootstrapVue from 'bootstrap-vue'
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
+// IMPORT CHART MODELS
 import VCharts from 'v-charts'
 import VueGoogleCharts from 'vue-google-charts'
 
@@ -26,6 +32,7 @@ Vue.component('user-chart', UserChart)
 Vue.use(VCharts)
 Vue.use(VueGoogleCharts)
 Vue.use(VueMaterial)
+Vue.use(BootstrapVue);
 /* eslint-disable no-new */
 new Vue({
   el: '#app',
