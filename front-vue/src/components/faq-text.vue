@@ -84,10 +84,11 @@ export default {
       this.showDialog = false;
     },
     postNewQuestion:function(){
-        HoursService.addPost(
-          0,  // id_curriculo
-          this.required,  //pergunta
-          this.textarea   // resposta
+        HoursService.addQuestion({
+          'id_curriculo' : 0,  // id_curriculo
+          'perg_duv' : this.required,  //pergunta
+          'resp_duv' : this.textarea   // resposta
+        }
         );
     },
     handler:function(){

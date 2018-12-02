@@ -1,4 +1,5 @@
 import Api from '@/services/Api'
+import qs from 'qs'
 
 export default {
 
@@ -18,8 +19,9 @@ export default {
   fetchQuestions(params) {
     return Api().get("/Questions/getAllQuestionsFromCurriculum/"+params.id)
   },
-  addPost(params) {
-    return Api().post('/Questions/addNewQuestion/', params)
+
+  addQuestion(params) {
+    return Api().post('/Questions/addNewQuestion/', qs.stringify(params))
   },
 
 
