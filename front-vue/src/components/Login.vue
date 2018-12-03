@@ -3,8 +3,8 @@
     <md-content class="md-elevation-8">
 
       <div class="title">
-        <img src="https://vuematerial.io/assets/logo-color.png">
-        <div class="md-title">INSERT LOGO ABOVE</div>
+        <img src="/static/images/logo.png" />
+        <div class="md-title">UFPEL</div>
         <div class="md-body-1">Login</div>
       </div>
 

@@ -50,49 +50,64 @@
 
     <!-- REQUEST TABLE -->
     <b-container fluid>
-      <b-table striped hover :items="requests" :fields="fields">
+      <b-table hover :items="formartedItems" :fields="fields"
+      @row-clicked="onRowClicked"
+      >
+
+      <template slot="show_details" slot-scope="row">
+      <!-- we use @click.stop here to prevent emitting of a 'row-clicked' event  -->
+      <b-button size="sm" @click.stop="row.toggleDetails" class="mr-2">
+       {{ row.detailsShowing ? 'Hide' : 'Show'}} Details
+      </b-button>
+      </template>
+      <template slot="row-details" slot-scope="row">
+        <b-card>
+          <b-row class="mb-2">
+            <b-col sm="3" class="text-sm-right"><b>Info 1:</b></b-col>
+            <b-col>{{ row.item.horas_info }}</b-col>
+          </b-row>
+          <b-row class="mb-2">
+            <b-col sm="3" class="text-sm-right"><b>Info 2:</b></b-col>
+            <b-col>{{ row.item.pdf }}</b-col>
+          </b-row>
+          <b-button size="sm" @click="row.toggleDetails">Hide Details</b-button>
+          <b-button id="accept-button"size="sm" variant="success" @click="row.item.status = 1">Accept</b-button>
+          <b-button id="refuse-button"size="sm" variant="danger" @click="row.item.status = 0">Refuse</b-button>
+        </b-card>
+      </template>
       </b-table>
     </b-container>
 
+<!-- DIALOG POPS UP WHEN ROW CLICKED -->
+    <md-dialog :md-active.sync="showDialog">
+      <md-dialog-title>Edit Request</md-dialog-title>
 
+      <div class="dialog-container">
+        <div class="dialog-inputs">
+          {{selectedRow}}
+
+        </div>
+        <div class="dialog-inputs">
+
+        </div>
+      </div>
+
+      <md-dialog-actions>
+        <md-button class="md-primary" @click="showDialog = false">Close</md-button>
+        <md-button class="md-primary" @click="handler()">Add</md-button>
+      </md-dialog-actions>
+     </md-dialog>
+
+     <!--On click sends changes to DB !!! -->
+     <b-button variant="primary">Save</b-button>
 
 
     <!-- POST CONTENT HERE -->
     <div class="posts">
+      <br><br><br><br>
       // This is all the data being received //
       {{requests}}
-      <h1>Posts</h1>
-      <div v-if="requests.length > 0" class="table-wrap">
-        <div>
-          <router-link v-bind:to="{ name: 'NewPost' }" class="">Add Post</router-link>
-        </div>
-        <table>
-          <tr>
-            <td>Title</td>
-            <td width="550">Description</td>
-            <td width="100" align="center">Action</td>
-          </tr>
-          <tr v-for="post in requests" :key="post.id_solicitacao">
-            <td>{{ post.id_solicitacao }}</td>
-            <td>{{ post.data_solic }}</td>
-            <td align="center">
-              <router-link v-bind:to="{ name: 'EditPost', params: { id: post._id } }">Edit</router-link> |
-              <a href="#" @click="deletePost(post._id)">Delete</a>
-            </td>
-          </tr>
-        </table>
-      </div>
-      <div v-else>
-        There are no posts.. Lets add one now <br /><br />
-        <router-link v-bind:to="{ name: 'NewPost' }" class="add_post_link">Add Post</router-link>
-      </div>
     </div>
-
-
-
-
-
-
 
   </md-app-content>
   </md-app>
@@ -128,27 +143,85 @@ const searchByName = (items, term) => {
 export default {
   name: 'posts',
   data: () => ({
-      fields : ['id_solicitacao', 'nome_aluno', 'id_atividade', 'data_solic'],
+      fields : ['nome_atividade', 'status', 'nome_categoria', 'data_solic', 'show_details'],
       requests : [],
       search: null,
-      searched: []
+      searched: [],
+      showDialog: false,
+      selectedRow: null,
+      form: {
+      email: '',
+      name: '',
+      food: null,
+      checked: []
+    },
+    foods: [
+      { text: 'Select One', value: null },
+      'Carrots', 'Beans', 'Tomatoes', 'Corn'
+    ],
+    show: true
     }),
   mounted () {
     this.fetchRequests()
   },
+  computed: {
+  formartedItems () {
+      if (!this.requests) return []
+        return this.requests.map(item => {
+          item._rowVariant  = this.getVariant(item.status)
+          return item
+      })
+    }
+  },
   methods: {
+    getVariant (status) {
+      switch (status) {
+        case 1:
+          return 'success'
+        case 0:
+          return 'danger'
+        default:
+          return 'warning'
+      }
+    },
     async fetchRequests () {
       const response = await HoursService.getAllStudentRequests({id:0})
       this.requests = response.data
     },
-}
+    onRowClicked (item, index, event) {
+      this.showDialog = true;
+      this.selectedRow = item;
+    },
+    onSubmit (evt) {
+      evt.preventDefault();
+      alert(JSON.stringify(this.form));
+    },
+    onReset (evt) {
+      evt.preventDefault();
+      /* Reset our form values */
+      this.form.email = '';
+      this.form.name = '';
+      this.form.food = null;
+      this.form.checked = [];
+      /* Trick to reset/clear native browser form validation state */
+      this.show = false;
+      this.$nextTick(() => { this.show = true });
+    }
+  }
 }
 </script>
 
 
 
 <style type="text/css">
-
+.dialog-inputs{
+  width: 50%;
+  margin: 0 auto;
+}
+.dialog-container{
+  min-width: 600px;
+  min-height: 800px;
+}
 .userimg-container{
   max-height: 350px;
 }
