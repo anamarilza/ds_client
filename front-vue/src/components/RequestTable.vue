@@ -8,7 +8,7 @@
       </md-table-toolbar>
 
       <md-table-row slot="md-table-row" slot-scope="{ item }">
-        <md-table-cell md-label="ID" md-sort-by="id" md-numeric>{{ item.id_solicitacao }}</md-table-cell>
+        <md-table-cell md-label="ID" md-sort-by="id" md-numeric>{{ item.nome_atividade }}</md-table-cell>
         <md-table-cell md-label="Name" md-sort-by="name">{{ item.nome_aluno }}</md-table-cell>
         <md-table-cell md-label="Email" md-sort-by="email">{{ item.email }}</md-table-cell>
         <md-table-cell md-label="Gender" md-sort-by="gender">{{ item.gender }}</md-table-cell>

@@ -1,6 +1,7 @@
 <template>
   <div class="page-container md-layout-row home">
-
+    {{fields}}
+    {{data_fields}}
     <md-app>
   <md-app-toolbar class="md-primary">
     <span class="md-title">Header</span>
@@ -162,26 +163,10 @@
      <!--On click sends changes to DB !!! -->
      <b-button variant="primary">Save</b-button>
      <b-btn variant="primary" v-b-modal.modalPrevent>NEW</b-btn>
-    <!-- POST CONTENT HERE -->
-    <div class="posts">
-      <br><br><br><br>
-      // This is all the data being received //
-      {{requests}}
-    </div>
-
   </md-app-content>
   </md-app>
 
   </div>
-
-
-
-
-
-
-
-
-
 
 
 </template>
@@ -212,6 +197,7 @@ export default {
       file : null,
       show : true,
       fields : ['nome_atividade', 'status', 'nome_categoria', 'data_solic', 'show_details'],
+      data_fields : [],
       requests : [],
       dialog_name: '',
       names: [],
@@ -264,6 +250,7 @@ export default {
     async fetchRequests () {
       const response = await HoursService.getAllStudentRequests({id:0})
       this.requests = response.data
+      this.getKeysFromRequests()
     },
 
     // show request details when row is clicked ---
@@ -287,7 +274,21 @@ export default {
       /* Trick to reset/clear native browser form validation state */
       this.show = false;
       this.$nextTick(() => { this.show = true });
+    },
+
+    // Get Keys from requests
+    getKeysFromRequests(){
+      for(var req of this.requests){
+        var tmpDic = {}
+        for (var key of this.fields) {
+        // check if the property/key is defined in the object itself, not in parent
+          console.log(key, req)
+          tmpDic[key] = req[key]
+        }
+        this.data_fields.push(tmpDic)
+      }
     }
+
   }
 }
 </script>
