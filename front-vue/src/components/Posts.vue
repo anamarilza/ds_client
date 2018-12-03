@@ -98,10 +98,70 @@
       </md-dialog-actions>
      </md-dialog>
 
+
+     <!-- This modal pops up when add button clicked -->
+     <div id="new-request-modal">
+
+
+       <!-- Modal Component -->
+       <b-modal id="modalPrevent"
+                ref="modal"
+                title="Submit your name"
+                @ok="handleOk"
+                @shown="clearName">
+         <form @submit.stop.prevent="handleSubmit">
+           <b-form-input type="text"
+                         placeholder="Enter your name"
+                         v-model="dialog_name"></b-form-input>
+         </form>
+        <!-- Insert modal content Here -->
+        <!-- CREATE A FORM IN DATA ((ARRAY WITH VARIABLES TO HOLD INFO FROM THIS MODAL, use v-model )) -->
+
+          <b-form @submit="onSubmit" @reset="onReset" v-if="show">
+            <b-form-group id="exampleInputGroup1"
+                          label="FORM FIELD #">
+
+              <b-form-input id="exampleInput1"
+                            type="email"
+                            v-model="form.email"
+                            required
+                            placeholder="Enter email">
+              </b-form-input>
+            </b-form-group>
+            <b-form-group id="exampleInputGroup2"
+                          label="FORM FIELD #"
+                          label-for="exampleInput2">
+              <b-form-input id="exampleInput2"
+                            type="text"
+                            v-model="form.name"
+                            required
+                            placeholder="Enter name">
+              </b-form-input>
+            </b-form-group>
+            <b-form-group id="exampleInputGroup3"
+                          label="THIS IS A DROPDOWN:"
+                          label-for="exampleInput3">
+              <b-form-select id="exampleInput3"
+                            :options="CREATE_OPTIONS--"
+                            required
+                            v-model="form.food">
+              </b-form-select>
+            </b-form-group>
+
+          </b-form>
+
+          <div id="pdf-holder">
+            <!-- Styled -->
+            <b-form-file v-model="file" :state="Boolean(file)" placeholder="Choose a file..."></b-form-file>
+            <div class="mt-3">Selected file: {{file && file.name}}</div>
+          </div>
+
+       </b-modal>
+     </div>
+
      <!--On click sends changes to DB !!! -->
      <b-button variant="primary">Save</b-button>
-
-
+     <b-btn variant="primary" v-b-modal.modalPrevent>NEW</b-btn>
     <!-- POST CONTENT HERE -->
     <div class="posts">
       <br><br><br><br>
@@ -143,23 +203,20 @@ const searchByName = (items, term) => {
 export default {
   name: 'posts',
   data: () => ({
+      form: {
+        email: '',
+        name: '',
+        food: null,
+        checked: []
+      },
+      file : null,
+      show : true,
       fields : ['nome_atividade', 'status', 'nome_categoria', 'data_solic', 'show_details'],
       requests : [],
-      search: null,
-      searched: [],
+      dialog_name: '',
+      names: [],
       showDialog: false,
       selectedRow: null,
-      form: {
-      email: '',
-      name: '',
-      food: null,
-      checked: []
-    },
-    foods: [
-      { text: 'Select One', value: null },
-      'Carrots', 'Beans', 'Tomatoes', 'Corn'
-    ],
-    show: true
     }),
   mounted () {
     this.fetchRequests()
@@ -174,6 +231,26 @@ export default {
     }
   },
   methods: {
+    // -- methods regarding new request modal
+    clearName () {
+      this.dialog_name = ''
+    },
+    handleOk (evt) {
+      // Prevent modal from closing
+      evt.preventDefault()
+      if (!this.dialog_name) {
+        alert('Please enter your name')
+      } else {
+        this.handleSubmit()
+      }
+    },
+    handleSubmit () {
+      this.names.push(this.dialog_name)
+      this.clearName()
+      this.$refs.modal.hide()
+    },
+    // -=------------------=-
+    // sets color to row according to status
     getVariant (status) {
       switch (status) {
         case 1:
@@ -188,10 +265,14 @@ export default {
       const response = await HoursService.getAllStudentRequests({id:0})
       this.requests = response.data
     },
+
+    // show request details when row is clicked ---
     onRowClicked (item, index, event) {
       this.showDialog = true;
       this.selectedRow = item;
     },
+
+    // db communication ???
     onSubmit (evt) {
       evt.preventDefault();
       alert(JSON.stringify(this.form));
@@ -214,6 +295,11 @@ export default {
 
 
 <style type="text/css">
+#modalPrevent{
+  height: 100%;
+  max-width: 100%;
+  margin: 0;
+}
 .dialog-inputs{
   width: 50%;
   margin: 0 auto;
@@ -244,7 +330,7 @@ export default {
   width: 90%;
 }
 .md-app {
-  min-height: 350px;
+  min-height: 1080px;
   border: 1px solid rgba(#000, .12);
 }
 
