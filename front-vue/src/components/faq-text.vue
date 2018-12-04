@@ -84,12 +84,13 @@ export default {
       this.showDialog = false;
     },
     postNewQuestion:function(){
-        HoursService.addNewQuestion({
-          'id_curriculo' : 0,  // id_curriculo
-          'perg_duv' : this.required,  //pergunta
-          'resp_duv' : this.textarea   // resposta
-        }
-        );
+        const formData = new FormData()
+        formData.append('id_curriculo', 0)
+        formData.append('perg_duv', this.required)
+        formData.append('resp_duv',this.textarea)
+
+        HoursService.addNewQuestion(formData);
+        console.log(formData)
     },
     handler:function(){
         this.postNewQuestion();

@@ -201,12 +201,7 @@ const searchByName = (items, term) => {
 export default {
   name: 'posts',
   data: () => ({
-      form: {
-        horas_info: '',
-        matricula: '',
-        id_atividade: 0 ,
-        file: null
-      },
+      form : new FormData(),
       show : true,
       atividades : ['Artigo', 'Bolsa - IC', 'Bolsa - Monitoria', 'Evento', 'Outro'],
       fields : ['nome_atividade', 'status', 'nome_categoria', 'data_solic', 'show_details'],
@@ -218,6 +213,13 @@ export default {
       selectedRow: null,
     }),
   mounted () {
+
+    this.form.append('horas_info', 0)
+    this.form.append('matricula', 0)
+    this.form.append('id_atividade', 0)
+    var file = new File([null], "PDF_DO_VITOR.pdf", {type: 'application/pdf'})
+    this.form.append('pdf', file)
+
     this.fetchRequests()
   },
   computed: {
@@ -233,6 +235,7 @@ export default {
     saveFile(pdf_file) {
       var FileSaver = require('file-saver');
       //var data = this.requests[0].pdf
+      console.log(pdf_file)
       var file = new File([pdf_file], "PDF_DO_VITOR.pdf", {type: 'application/pdf'});
       FileSaver.saveAs(file);
     },

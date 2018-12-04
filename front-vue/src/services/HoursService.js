@@ -36,7 +36,7 @@ export default {
 
   addNewRequest(params) {
     console.log("WHYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY")
-    return Api().post('/Requests/addNewRequest/', qs.stringify(params))
+    return Api().post('/Requests/addNewRequest/', params)
   },
 
   // FAQ Stuff
@@ -58,6 +58,6 @@ export default {
 	// 	- pdf // arquivo pdf
 
   addNewQuestion(params) {
-    return Api().post('/Questions/addNewQuestion/', qs.stringify(params))
+    return Api().post('/Questions/addNewQuestion/', params)
   }
 }
