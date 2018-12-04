@@ -34,7 +34,8 @@ export default {
 	// 	- horas_info; // número de horas informadas pelo aluno
 	// 	- pdf // arquivo pdf
 
-  addNewQuestion(params) {
+  addNewRequest(params) {
+    console.log("WHYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY")
     return Api().post('/Requests/addNewRequest/', qs.stringify(params))
   },
 

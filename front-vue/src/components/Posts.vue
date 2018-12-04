@@ -119,9 +119,7 @@
         <!-- CREATE A FORM IN DATA ((ARRAY WITH VARIABLES TO HOLD INFO FROM THIS MODAL, use v-model )) -->
 
           <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-            <b-form-group id="exampleInputGroup1"
-                          >
-
+            <b-form-group id="exampleInputGroup1">
               <b-form-input style="margin-top:15px" id="exampleInput1"
                             type="email"
                             v-model="form.horas_info"
@@ -129,7 +127,6 @@
                             placeholder="Informe as horas estimadas!">
               </b-form-input>
             </b-form-group>
-
             <b-form-group id="exampleInputGroup3"
                           label="Selecione o tipo de atividade:"
                           label-for="exampleInput3">
@@ -147,12 +144,11 @@
             <b-form-file v-model="form.file" :state="Boolean(form.file)" placeholder="Choose a file..."></b-form-file>
             <div class="mt-3">Selected file: {{form.file && form.file.name}}</div>
           </div>
-
        </b-modal>
      </div>
 
      <!--On click sends changes to DB !!! -->
-     <b-button variant="primary">Save</b-button>
+     <b-btn variant="primary" @click="sendRequest">Save</b-btn>
      <b-btn variant="primary" v-b-modal.modalPrevent>NEW</b-btn>
      {{form}}
      {{form.file && form.file.name}}
@@ -185,8 +181,8 @@ export default {
       form: {
         horas_info: '',
         matricula: '',
-        id_atividade: '' ,
-        file: null
+        id_atividade: 0 ,
+        file: 'null'
       },
       show : true,
       fields : ['nome_atividade', 'status', 'nome_categoria', 'data_solic', 'show_details'],
@@ -275,11 +271,15 @@ export default {
         var tmpDic = {}
         for (var key of this.fields) {
         // check if the property/key is defined in the object itself, not in parent
-          console.log(key, req)
           tmpDic[key] = req[key]
         }
         this.data_fields.push(tmpDic)
       }
+    },
+
+    sendRequest(){
+        console.log('maoe')
+        HoursService.addNewRequest(this.form)
     }
 
   }
