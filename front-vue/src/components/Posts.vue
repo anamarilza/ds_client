@@ -62,16 +62,34 @@
       </b-button>
       </template>
       <template slot="row-details" slot-scope="row">
+        <!--this template holds whats inside the Details of Rows -->
         <b-card>
-          <b-row class="mb-2">
-            <b-col sm="3" class="text-sm-right"><b>Info 1:</b></b-col>
-            <b-col>{{ row.item.horas_info }}</b-col>
+
+          <b-row class ="mb-2" align-h="center">
+            <b-col sm="3">Horas informadas</b-col>
+            <b-col sm="3">
+              <b-form-input type="text" placeholder="Input text" v-model="row.item.horas_info"></b-form-input>
+            </b-col>
           </b-row>
-          <b-row class="mb-2">
-            <b-col sm="3" class="text-sm-right"><b>Info 2:</b></b-col>
-            <b-col>{{ row.item.pdf }}</b-col>
+
+          <b-row class ="mb-2" align-h="center">
+            <b-col sm="3">Tipo de atividade</b-col>
+            <b-col sm="3">
+              <b-form-group id="exampleInputGroup3"
+                            label-for="exampleInput3">
+                <b-form-select  id="exampleInput3"
+                              :options="atividades"
+                              required
+                              v-model="row.item.id_atividade">
+                </b-form-select>
+              </b-form-group>
+            </b-col>
           </b-row>
-          <b-button size="sm" @click="row.toggleDetails">Hide Details</b-button>
+          <b-row class="mb-2" align-h="center"><b-button @click="saveFile(row.item.pdf)">PDF</b-button></b-row>
+          <form>
+
+          </form>
+
           <b-button id="accept-button"size="sm" variant="success" @click="row.item.status = 1">Accept</b-button>
           <b-button id="refuse-button"size="sm" variant="danger" @click="row.item.status = 0">Refuse</b-button>
         </b-card>
@@ -131,7 +149,7 @@
                           label="Selecione o tipo de atividade:"
                           label-for="exampleInput3">
               <b-form-select  id="exampleInput3"
-                            :options="fields"
+                            :options="atividades"
                             required
                             v-model="form.id_atividade">
               </b-form-select>
@@ -149,10 +167,13 @@
 
      <!--On click sends changes to DB !!! -->
      <b-btn variant="primary" @click="sendRequest">Save</b-btn>
+     <b-btn variant="primary" @click="saveFile(form.file)" v-bind:disabled="form.file === null">Download</b-btn>
      <b-btn variant="primary" v-b-modal.modalPrevent>NEW</b-btn>
      {{form}}
      {{form.file && form.file.name}}
-
+     <br><br><br>
+     <a :href="form.file" download>Download</a>
+     {{requests[0].pdf}}
   </md-app-content>
   </md-app>
 
@@ -162,6 +183,7 @@
 </template>
 
 <script>
+import saveAs from 'file-saver';
 import HoursService from '@/services/HoursService'
 
 const toLower = text => {
@@ -175,6 +197,7 @@ const searchByName = (items, term) => {
 
   return items
 }
+
 export default {
   name: 'posts',
   data: () => ({
@@ -182,9 +205,10 @@ export default {
         horas_info: '',
         matricula: '',
         id_atividade: 0 ,
-        file: 'null'
+        file: null
       },
       show : true,
+      atividades : ['Artigo', 'Bolsa - IC', 'Bolsa - Monitoria', 'Evento', 'Outro'],
       fields : ['nome_atividade', 'status', 'nome_categoria', 'data_solic', 'show_details'],
       data_fields : [],
       requests : [],
@@ -206,6 +230,12 @@ export default {
     }
   },
   methods: {
+    saveFile(pdf_file) {
+      var FileSaver = require('file-saver');
+      //var data = this.requests[0].pdf
+      var file = new File([pdf_file], "PDF_DO_VITOR.pdf", {type: 'application/pdf'});
+      FileSaver.saveAs(file);
+    },
     // -- methods regarding new request modal
     clearName () {
       this.dialog_name = ''
