@@ -3,7 +3,7 @@
 
     <md-app>
   <md-app-toolbar class="md-primary">
-    <span class="md-title">Header</span>
+    <span class="md-title"></span>
   </md-app-toolbar>
 
   <md-app-drawer md-permanent="clipped">

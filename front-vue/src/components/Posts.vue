@@ -4,7 +4,7 @@
     {{data_fields}}
     <md-app>
   <md-app-toolbar class="md-primary">
-    <span class="md-title">Header</span>
+    <span class="md-title"></span>
   </md-app-toolbar>
 
   <md-app-drawer md-permanent="clipped">
@@ -107,45 +107,36 @@
        <!-- Modal Component -->
        <b-modal id="modalPrevent"
                 ref="modal"
-                title="Submit your name"
+                title="Submeter Nova Solicitação"
                 @ok="handleOk"
                 @shown="clearName">
          <form @submit.stop.prevent="handleSubmit">
            <b-form-input type="text"
-                         placeholder="Enter your name"
-                         v-model="dialog_name"></b-form-input>
+                         placeholder="Matrícula"
+                         v-model="form.matricula"></b-form-input>
          </form>
         <!-- Insert modal content Here -->
         <!-- CREATE A FORM IN DATA ((ARRAY WITH VARIABLES TO HOLD INFO FROM THIS MODAL, use v-model )) -->
 
           <b-form @submit="onSubmit" @reset="onReset" v-if="show">
             <b-form-group id="exampleInputGroup1"
-                          label="FORM FIELD #">
+                          >
 
-              <b-form-input id="exampleInput1"
+              <b-form-input style="margin-top:15px" id="exampleInput1"
                             type="email"
-                            v-model="form.email"
+                            v-model="form.horas_info"
                             required
-                            placeholder="Enter email">
+                            placeholder="Informe as horas estimadas!">
               </b-form-input>
             </b-form-group>
-            <b-form-group id="exampleInputGroup2"
-                          label="FORM FIELD #"
-                          label-for="exampleInput2">
-              <b-form-input id="exampleInput2"
-                            type="text"
-                            v-model="form.name"
-                            required
-                            placeholder="Enter name">
-              </b-form-input>
-            </b-form-group>
+
             <b-form-group id="exampleInputGroup3"
-                          label="THIS IS A DROPDOWN:"
+                          label="Selecione o tipo de atividade:"
                           label-for="exampleInput3">
-              <b-form-select id="exampleInput3"
-                            :options="CREATE_OPTIONS--"
+              <b-form-select  id="exampleInput3"
+                            :options="fields"
                             required
-                            v-model="form.food">
+                            v-model="form.id_atividade">
               </b-form-select>
             </b-form-group>
 
@@ -153,8 +144,8 @@
 
           <div id="pdf-holder">
             <!-- Styled -->
-            <b-form-file v-model="file" :state="Boolean(file)" placeholder="Choose a file..."></b-form-file>
-            <div class="mt-3">Selected file: {{file && file.name}}</div>
+            <b-form-file v-model="form.file" :state="Boolean(form.file)" placeholder="Choose a file..."></b-form-file>
+            <div class="mt-3">Selected file: {{form.file && form.file.name}}</div>
           </div>
 
        </b-modal>
@@ -163,6 +154,9 @@
      <!--On click sends changes to DB !!! -->
      <b-button variant="primary">Save</b-button>
      <b-btn variant="primary" v-b-modal.modalPrevent>NEW</b-btn>
+     {{form}}
+     {{form.file && form.file.name}}
+
   </md-app-content>
   </md-app>
 
@@ -189,12 +183,11 @@ export default {
   name: 'posts',
   data: () => ({
       form: {
-        email: '',
-        name: '',
-        food: null,
-        checked: []
+        horas_info: '',
+        matricula: '',
+        id_atividade: '' ,
+        file: null
       },
-      file : null,
       show : true,
       fields : ['nome_atividade', 'status', 'nome_categoria', 'data_solic', 'show_details'],
       data_fields : [],
@@ -224,8 +217,8 @@ export default {
     handleOk (evt) {
       // Prevent modal from closing
       evt.preventDefault()
-      if (!this.dialog_name) {
-        alert('Please enter your name')
+      if (!this.form.matricula || this.form.file == null) {
+        alert('Por favor, informe a sua matrícula e certifique-se de anexar o certificado!')
       } else {
         this.handleSubmit()
       }
