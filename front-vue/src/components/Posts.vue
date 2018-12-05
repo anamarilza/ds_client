@@ -159,7 +159,7 @@
 
           <div id="pdf-holder">
             <!-- Styled -->
-            <b-form-file v-model="form.file" :state="Boolean(form.file)" placeholder="Choose a file..."></b-form-file>
+            <label>File<input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/> </label>
             <div class="mt-3">Selected file: {{form.file && form.file.name}}</div>
           </div>
        </b-modal>
@@ -201,7 +201,14 @@ const searchByName = (items, term) => {
 export default {
   name: 'posts',
   data: () => ({
-      form : new FormData(),
+      form: {
+        horas_info: 0,
+        matricula: 0,
+        id_atividade: 0 ,
+        file: null,
+      },
+      file:'',
+      formData : new FormData(),
       show : true,
       atividades : ['Artigo', 'Bolsa - IC', 'Bolsa - Monitoria', 'Evento', 'Outro'],
       fields : ['nome_atividade', 'status', 'nome_categoria', 'data_solic', 'show_details'],
@@ -213,13 +220,6 @@ export default {
       selectedRow: null,
     }),
   mounted () {
-
-    this.form.append('horas_info', 0)
-    this.form.append('matricula', 0)
-    this.form.append('id_atividade', 0)
-    var file = new File([null], "PDF_DO_VITOR.pdf", {type: 'application/pdf'})
-    this.form.append('pdf', file)
-
     this.fetchRequests()
   },
   computed: {
@@ -232,6 +232,9 @@ export default {
     }
   },
   methods: {
+    handleFileUpload(){
+      this.form.file = this.$refs.file.files[0];
+    },
     saveFile(pdf_file) {
       var FileSaver = require('file-saver');
       //var data = this.requests[0].pdf
@@ -251,6 +254,7 @@ export default {
       } else {
         this.handleSubmit()
       }
+
     },
     handleSubmit () {
       this.names.push(this.dialog_name)
@@ -311,8 +315,19 @@ export default {
     },
 
     sendRequest(){
-        console.log('maoe')
-        HoursService.addNewRequest(this.form)
+      this.formData.append('horas_info', this.form.horas_info)
+      this.formData.append('matricula', this.form.matricula)
+      this.formData.append('id_atividade', this.form.id_atividade)
+
+      console.log(this.form.file)
+      console.log(this.form.matricula)
+      console.log(this.form.horas_info)
+
+      this.formData.append('pdf', this.form.file)
+
+      console.log(this.form.horas_info)
+      console.log('maoe')
+      HoursService.addNewRequest(this.formData)
     }
 
   }
