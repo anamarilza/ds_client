@@ -317,7 +317,7 @@ export default {
     sendRequest(){
       this.formData.append('horas_info', this.form.horas_info)
       this.formData.append('matricula', this.form.matricula)
-      this.formData.append('id_atividade', this.form.id_atividade)
+      this.formData.append('id_atividade', 0)
 
       console.log(this.form.file)
       console.log(this.form.matricula)
