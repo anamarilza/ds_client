@@ -64,5 +64,12 @@ export default {
 
   addNewQuestion(params) {
     return Api().post('/Questions/addNewQuestion/', params)
+  },
+
+
+  // Funçãozinha pra pegar todas as Atividades setadas estaticamente no banco
+  getActivityFields(params){
+    return Api().get('/Activities/getAllActivities/' + params)
   }
+
 }

@@ -1,7 +1,5 @@
 <template>
   <div class="page-container md-layout-row home">
-    {{fields}}
-    {{data_fields}}
     <md-app>
   <md-app-toolbar class="md-primary">
     <span class="md-title"></span>
@@ -14,7 +12,7 @@
             <img src="https://orig00.deviantart.net/adc4/f/2018/201/f/0/profile_picture_by_dummy_doodles-dchro9m.png"></img>
         </md-content>
         <p>
-          {{name}}
+
         </p>
       </router-link>
       </div>
@@ -85,13 +83,27 @@
               </b-form-group>
             </b-col>
           </b-row>
-          <b-row class="mb-2" align-h="center"><b-button @click="saveFile(row.item.pdf)">PDF</b-button></b-row>
+          <b-row align-h="center">
+            <b-col sm="10">
+              <b-form-textarea id="textarea1"
+                               v-model="text"
+                               placeholder="Comentário sobre solicitação"
+                               :rows="3"
+                               :max-rows="6">
+              </b-form-textarea>
+            </b-col>
+          </b-row>
+          <b-row class="mb-2" align-h="center" style="padding-top: 15px">
+
+            <b-col sm="1"><b-button size="sm" @click="openPdf(row.item.pdf)">PDF</b-button></b-col>
+            <b-col sm="1"><b-button id="accept-button"size="sm" variant="success" @click="row.item.status = 1; handleAnswer()">Accept</b-button></b-col>
+            <b-col sm="1"><b-button id="refuse-button"size="sm" variant="danger" @click="row.item.status = 0; handleAnswer()">Refuse</b-button></b-col>
+          </b-row>
           <form>
 
           </form>
 
-          <b-button id="accept-button"size="sm" variant="success" @click="row.item.status = 1">Accept</b-button>
-          <b-button id="refuse-button"size="sm" variant="danger" @click="row.item.status = 0">Refuse</b-button>
+
         </b-card>
       </template>
       </b-table>
@@ -127,12 +139,7 @@
                 ref="modal"
                 title="Submeter Nova Solicitação"
                 @ok="handleOk"
-                @shown="clearName">
-         <form @submit.stop.prevent="handleSubmit">
-           <b-form-input type="text"
-                         placeholder="Matrícula"
-                         v-model="form.matricula"></b-form-input>
-         </form>
+                >
         <!-- Insert modal content Here -->
         <!-- CREATE A FORM IN DATA ((ARRAY WITH VARIABLES TO HOLD INFO FROM THIS MODAL, use v-model )) -->
 
@@ -150,8 +157,9 @@
                           label-for="exampleInput3">
               <b-form-select  id="exampleInput3"
                             :options="atividades"
+
                             required
-                            v-model="form.id_atividade">
+                            v-model="form.nome_atividade">
               </b-form-select>
             </b-form-group>
 
@@ -166,14 +174,11 @@
      </div>
 
      <!--On click sends changes to DB !!! -->
-     <b-btn variant="primary" @click="sendRequest">Save</b-btn>
-     <b-btn variant="primary" @click="saveFile(form.file)" v-bind:disabled="form.file === null">Download</b-btn>
-     <b-btn variant="primary" v-b-modal.modalPrevent>NEW</b-btn>
-     {{form}}
-     {{form.file && form.file.name}}
-     <br><br><br>
-     <a :href="form.file" download>Download</a>
-     {{requests[0].pdf}}
+     <b-row align-h="end" style="padding-right: 33px">
+       <b-btn variant="primary" @click="sendRequest" v-bind:disabled="form.file === null">Save</b-btn>
+       <b-btn variant="primary" v-b-modal.modalPrevent>New</b-btn>
+     </b-row>
+
   </md-app-content>
   </md-app>
 
@@ -186,18 +191,6 @@
 import saveAs from 'file-saver';
 import HoursService from '@/services/HoursService'
 
-const toLower = text => {
-  return text.toString().toLowerCase()
-}
-
-const searchByName = (items, term) => {
-  if (term) {
-    return items.filter(item => toLower(item.name).includes(toLower(term)))
-  }
-
-  return items
-}
-
 export default {
   name: 'posts',
   data: () => ({
@@ -206,26 +199,29 @@ export default {
         matricula: 0,
         id_atividade: 0 ,
         file: null,
+        resp_duv: ''
       },
+      reviews : [], // this guy holder the changes in all requests from the table. When Save is hit, gotta send all the guys in here to DB !!!
+      text : '',
+      activities: [], // this guy holds all activies set in the db
       file:'',
       formData : new FormData(),
       show : true,
-      atividades : ['Artigo', 'Bolsa - IC', 'Bolsa - Monitoria', 'Evento', 'Outro'],
-      fields : ['nome_atividade', 'status', 'nome_categoria', 'data_solic', 'show_details'],
-      data_fields : [],
+      atividades : [],
+      fields : ['nome_aluno', 'nome_atividade', 'nome_categoria', 'data_solic', 'show_details'],
       requests : [],
-      dialog_name: '',
-      names: [],
       showDialog: false,
       selectedRow: null,
     }),
   mounted () {
-    this.fetchRequests()
+    this.fetchRequests(),
+    this.getActivityFields()
   },
   computed: {
   formartedItems () {
       if (!this.requests) return []
         return this.requests.map(item => {
+          item.data_solic = item.data_solic.slice(0,10),
           item._rowVariant  = this.getVariant(item.status)
           return item
       })
@@ -235,30 +231,29 @@ export default {
     handleFileUpload(){
       this.form.file = this.$refs.file.files[0];
     },
-    saveFile(pdf_file) {
-      var FileSaver = require('file-saver');
-      //var data = this.requests[0].pdf
-      console.log(pdf_file)
-      var file = new File([pdf_file], "PDF_DO_VITOR.pdf", {type: 'application/pdf'});
-      FileSaver.saveAs(file);
+    openPdf(pdf_file) {
+      window.open('http://localhost:3000/Requests/getRequestFileById/' + pdf_file, '_blank');
     },
     // -- methods regarding new request modal
-    clearName () {
-      this.dialog_name = ''
+    clearForm () {
+      return
+    },
+    handleAnswer(){
+      this.form.resp_duv = this.text
+      this.text = ''
+      this.reviews.append(this.form)
     },
     handleOk (evt) {
       // Prevent modal from closing
       evt.preventDefault()
-      if (!this.form.matricula || this.form.file == null) {
+      // if (!this.form.matricula || this.form.file == null) {
+      if (this.form.matricula < 0 || this.form.file == null) {
         alert('Por favor, informe a sua matrícula e certifique-se de anexar o certificado!')
       } else {
         this.handleSubmit()
       }
-
     },
     handleSubmit () {
-      this.names.push(this.dialog_name)
-      this.clearName()
       this.$refs.modal.hide()
     },
     // -=------------------=-
@@ -276,7 +271,7 @@ export default {
     async fetchRequests () {
       const response = await HoursService.getAllStudentRequests({id:0})
       this.requests = response.data
-      this.getKeysFromRequests()
+
     },
 
     // show request details when row is clicked ---
@@ -286,6 +281,18 @@ export default {
     },
 
     // db communication ???
+    async getActivityFields(){
+      const response = await HoursService.getActivityFields(0)
+      var tmpDic = []
+      for (var key of response.data) {
+        tmpDic.push({
+          id_atividade : key.id_atividade,
+          nome_atividade : key.nome_atividade
+        })
+        this.atividades.push(key.nome_atividade)
+      }
+      this.activities = tmpDic
+    },
     onSubmit (evt) {
       evt.preventDefault();
       alert(JSON.stringify(this.form));
@@ -295,39 +302,32 @@ export default {
       /* Reset our form values */
       this.form.email = '';
       this.form.name = '';
-      this.form.food = null;
       this.form.checked = [];
       /* Trick to reset/clear native browser form validation state */
       this.show = false;
       this.$nextTick(() => { this.show = true });
     },
 
-    // Get Keys from requests
-    getKeysFromRequests(){
-      for(var req of this.requests){
-        var tmpDic = {}
-        for (var key of this.fields) {
-        // check if the property/key is defined in the object itself, not in parent
-          tmpDic[key] = req[key]
-        }
-        this.data_fields.push(tmpDic)
-      }
-    },
-
     sendRequest(){
+      /*
+      * Tratar exceções do form aqui. Se não tiver pdf ou não tiver
+      */
+      if(this.form.pdf === null) return
       this.formData.append('horas_info', this.form.horas_info)
-      this.formData.append('matricula', this.form.matricula)
-      this.formData.append('id_atividade', 0)
+      this.formData.append('matricula', 0)
 
-      console.log(this.form.file)
-      console.log(this.form.matricula)
-      console.log(this.form.horas_info)
+      for(var i=0; i < this.activities.length; i++){
 
+        if( this.activities[i].nome_atividade === this.form.nome_atividade){
+
+          this.form.id_atividade = this.activities[i].id_atividade
+        }
+      }
+      this.formData.append('id_atividade', this.form.id_atividade)
       this.formData.append('pdf', this.form.file)
 
-      console.log(this.form.horas_info)
-      console.log('maoe')
       HoursService.addNewRequest(this.formData)
+      this.$router.go()
     }
 
   }
