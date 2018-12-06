@@ -70,6 +70,9 @@ export default {
   // Funçãozinha pra pegar todas as Atividades setadas estaticamente no banco
   getActivityFields(params){
     return Api().get('/Activities/getAllActivities/' + params)
-  }
+  },
 
+  postReview(params){
+    return Api().post('/Reviews/addNewReview/', params)
+  }
 }

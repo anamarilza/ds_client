@@ -96,8 +96,9 @@
           <b-row class="mb-2" align-h="center" style="padding-top: 15px">
 
             <b-col sm="1"><b-button size="sm" @click="openPdf(row.item.pdf)">PDF</b-button></b-col>
-            <b-col sm="1"><b-button id="accept-button"size="sm" variant="success" @click="row.item.status = 1; handleAnswer()">Accept</b-button></b-col>
-            <b-col sm="1"><b-button id="refuse-button"size="sm" variant="danger" @click="row.item.status = 0; handleAnswer()">Refuse</b-button></b-col>
+            <!-- ; this.form.id_solicitacao = row.item.id_solicitacao  ON HANDLE ANSWER -->
+            <b-col sm="1"><b-button id="accept-button"size="sm" variant="success" @click="row.item.status = 1 ;handleAnswer(row.item)">Accept</b-button></b-col>
+            <b-col sm="1"><b-button id="refuse-button"size="sm" variant="danger" @click="row.item.status = 0; handleAnswer(row.item)">Refuse</b-button></b-col>
           </b-row>
           <form>
 
@@ -175,7 +176,7 @@
 
      <!--On click sends changes to DB !!! -->
      <b-row align-h="end" style="padding-right: 33px">
-       <b-btn variant="primary" @click="sendRequest" v-bind:disabled="form.file === null">Save</b-btn>
+       <b-btn variant="primary" @click="handleSubmit">Submit</b-btn>
        <b-btn variant="primary" v-b-modal.modalPrevent>New</b-btn>
      </b-row>
 
@@ -195,9 +196,10 @@ export default {
   name: 'posts',
   data: () => ({
       form: {
-        horas_info: 0,
+        horas_info: '',
         matricula: 0,
-        id_atividade: 0 ,
+        id_atividade: 0,
+        id_solicitacao: -1,
         file: null,
         resp_duv: ''
       },
@@ -238,10 +240,17 @@ export default {
     clearForm () {
       return
     },
-    handleAnswer(){
+    handleAnswer(data){
+      for (var i = 0; i < this.reviews.length; i++){
+        if(this.reviews[i] === data){
+          console.log("Já está na lista, e alterado :)")
+          return
+        }
+      }
+      data.resp_correcao = this.text
       this.form.resp_duv = this.text
       this.text = ''
-      this.reviews.append(this.form)
+      this.reviews.push(data)
     },
     handleOk (evt) {
       // Prevent modal from closing
@@ -250,11 +259,18 @@ export default {
       if (this.form.matricula < 0 || this.form.file == null) {
         alert('Por favor, informe a sua matrícula e certifique-se de anexar o certificado!')
       } else {
-        this.handleSubmit()
+        this.$refs.modal.hide()
       }
     },
     handleSubmit () {
-      this.$refs.modal.hide()
+      //if(this.reviews.length < 1 && this.form.pdf === null){
+        //alert("Nenhuma mudança foi feita..")
+      //}
+      //else{
+      this.sendRequest()
+      this.sendReview()
+      //}
+      this.$router.go() //  <-- refresh page
     },
     // -=------------------=-
     // sets color to row according to status
@@ -307,6 +323,24 @@ export default {
       this.show = false;
       this.$nextTick(() => { this.show = true });
     },
+    sendReview(){
+      console.log("SENDREVIEW HAS BEEN CALLED !!!!!")
+      var reviewForm = new FormData()
+      console.log("will print this.reviews")
+      for(var i = 0; i < this.reviews.length; i++){
+        console.log(this.reviews[i].resp_correcao)
+        reviewForm.append('siapAdmin', 'siapExemplo')
+        reviewForm.append('resp_correcao', this.reviews[i].resp_correcao)
+        reviewForm.append('horas_aceitas', this.reviews[i].horas_info)
+        reviewForm.append('status', this.reviews[i].status)
+        reviewForm.append('id_solicitacao', this.reviews[i].id_solicitacao)
+        HoursService.postReview(reviewForm)
+      }
+      for (var pair of reviewForm.entries()) {
+          console.log(pair[0]+ ', ' + pair[1]);
+      }
+
+    },
 
     sendRequest(){
       /*
@@ -327,7 +361,7 @@ export default {
       this.formData.append('pdf', this.form.file)
 
       HoursService.addNewRequest(this.formData)
-      this.$router.go()
+
     }
 
   }
