@@ -292,7 +292,7 @@ export default {
       this.sendRequest()
       this.sendReview()
       //}
-      //this.$router.go() //  <-- refresh page
+      //this.$router.go() //  <-- refresh page,  gotta make this guy wait for sends to end!
     },
     // -=------------------=-
     // sets color to row according to status
