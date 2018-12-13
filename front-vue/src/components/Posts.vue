@@ -145,14 +145,7 @@
         <!-- CREATE A FORM IN DATA ((ARRAY WITH VARIABLES TO HOLD INFO FROM THIS MODAL, use v-model )) -->
 
           <b-form @submit="onSubmit" @reset="onReset" v-if="show">
-            <b-form-group id="exampleInputGroup1">
-              <b-form-input style="margin-top:15px" id="exampleInput1"
-                            type="email"
-                            v-model="form.horas_info"
-                            required
-                            placeholder="Informe as horas estimadas!">
-              </b-form-input>
-            </b-form-group>
+
             <b-form-group id="exampleInputGroup3"
                           label="Selecione o tipo de atividade:"
                           label-for="exampleInput3">
@@ -163,10 +156,37 @@
                             v-model="form.nome_atividade">
               </b-form-select>
             </b-form-group>
-
+            <b-form-group id="exampleInputGroup1">
+              <b-form-input style="margin-top:15px" id="exampleInput1"
+                            type="email"
+                            v-model="form.horas_info"
+                            required
+                            placeholder="Informe as horas estimadas!">
+              </b-form-input>
+            </b-form-group>
+            <b-row>
+              <b-col>
+                <label>Inicio</label>
+                <b-form-input style="" id="exampleInput1"
+                              type="date"
+                              v-model="form.inicio"
+                              required
+                              placeholder="Inicio">
+                </b-form-input>
+              </b-col>
+              <b-col>
+                <label>Fim</label>
+                <b-form-input style="" id="exampleInput1"
+                              type="date"
+                              v-model="form.fim"
+                              required
+                              placeholder="Fim">
+                </b-form-input>
+              </b-col>
+            </b-row>
           </b-form>
 
-          <div id="pdf-holder">
+          <div id="pdf-holder" style="padding-top: 25px;">
             <!-- Styled -->
             <label>File<input type="file" id="file" ref="file" v-on:change="handleFileUpload()"/> </label>
             <div class="mt-3">Selected file: {{form.file && form.file.name}}</div>
@@ -201,6 +221,8 @@ export default {
         id_atividade: 0,
         id_solicitacao: -1,
         file: null,
+        inicio: -1,
+        fim: -1,
         resp_duv: ''
       },
       reviews : [], // this guy holder the changes in all requests from the table. When Save is hit, gotta send all the guys in here to DB !!!
