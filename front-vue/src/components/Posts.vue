@@ -292,7 +292,7 @@ export default {
       this.sendRequest()
       this.sendReview()
       //}
-      this.$router.go() //  <-- refresh page
+      //this.$router.go() //  <-- refresh page
     },
     // -=------------------=-
     // sets color to row according to status
@@ -381,7 +381,8 @@ export default {
       }
       this.formData.append('id_atividade', this.form.id_atividade)
       this.formData.append('pdf', this.form.file)
-
+      this.formData.append('inicio', this.form.inicio)
+      this.formData.append('fim', this.form.fim)
       HoursService.addNewRequest(this.formData)
 
     }

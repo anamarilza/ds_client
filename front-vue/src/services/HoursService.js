@@ -37,9 +37,6 @@ export default {
   addNewRequest(params) {
     console.log("WHYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYYY")
     return Api().post('/Requests/addNewRequest/', params, {
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
       }
     )
   },
